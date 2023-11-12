@@ -23,8 +23,7 @@ func _physics_process(delta):
 		
 		CatStates.IDLE:
 			
-			if velocity.x != 0:
-				current_state = CatStates.RUNNING
+			velocity.x = lerp(velocity.x, 0.0, 0.15)
 			
 			animation_player.play("idle")
 			
@@ -55,15 +54,18 @@ func _physics_process(delta):
 				current_state = CatStates.AIR
 				return
 			
-			if direction == 0:
-				current_state = CatStates.IDLE
 
 			if Input.is_action_just_pressed("p1_jump") and is_on_floor():
 				velocity.y = JUMP_VELOCITY
 				current_state = CatStates.AIR
 				return
 				
-			velocity.x = direction * SPEED
+			if direction:		
+				velocity.x = lerp(velocity.x, direction * SPEED, 0.3)
+			else:
+				velocity.x = lerp(velocity.x, 0.0, 0.3)
+				current_state = CatStates.IDLE
+
 			
 			move_and_slide()
 	
@@ -81,8 +83,11 @@ func _physics_process(delta):
 
 			elif direction > 0:
 				sprite_2d.flip_h = false
-					
-			velocity.x = direction * SPEED
+			
+			if direction:		
+				velocity.x = lerp(velocity.x, direction * SPEED, 0.1)
+			else:
+				velocity.x = lerp(velocity.x, 0.0, 0.1)
 				
 			move_and_slide()
 			
