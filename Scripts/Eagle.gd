@@ -1,8 +1,10 @@
 extends Node2D
 
-class_name CPUBehavior
 
-enum EnemyStates {IDLE, WALKING, FLYING, CHASING, WAITING}
+class_name EagleBehavior
+
+
+enum EnemyStates {IDLE, FLYING, DIVING, WAITING}
 
 @onready var wall_detector = $"../WallDetector"
 @onready var cliff_detector = $"../CliffDetector"
@@ -11,7 +13,7 @@ enum EnemyStates {IDLE, WALKING, FLYING, CHASING, WAITING}
 
 
 @export var cliff_rebounds: bool = true
-@export var distance_limit: int = 400
+@export var distance_limit: int = 150
 @export var start_left: bool = false
 @export var SPEED: int = 100
 
@@ -21,7 +23,7 @@ var originX
 
 func _ready():
 	direction = 1
-	currentState = EnemyStates.IDLE
+	currentState = EnemyStates.FLYING
 	originX = global_position.x
 	if start_left:
 		flip_char()
@@ -34,32 +36,25 @@ func _process(delta):
 	match currentState:
 	
 		EnemyStates.IDLE:
-			if actor.is_on_floor():
-				currentState = EnemyStates.WALKING
-			else:
-				actor.velocity.y += actor.gravity * delta	
-			
-			actor.move_and_slide()
-			
-		EnemyStates.WALKING:
-			
-			
-			if cliff_detector.is_colliding():
-				actor.velocity.x = direction * SPEED
-			elif not cliff_detector.is_colliding() and cliff_rebounds:
-				flip_char()
-				
-			if wall_detector.is_colliding():
-				flip_char()
-				
-			actor.velocity.y += actor.gravity * delta	
-			actor.move_and_slide()
-			
-			
-		EnemyStates.FLYING:
 			pass
 			
-		EnemyStates.CHASING:
+		EnemyStates.FLYING:
+
+			actor.velocity.x = direction * SPEED
+			
+			actor.move_and_slide()
+			
+			
+			
+			if abs(global_position.x - originX) > distance_limit:
+				flip_char()
+			
+
+			
+		EnemyStates.DIVING:
+			pass
+			
+		EnemyStates.WAITING:
 			pass
 			
 func flip_char():			

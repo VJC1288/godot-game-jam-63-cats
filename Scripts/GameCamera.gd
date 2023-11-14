@@ -28,5 +28,6 @@ func initialize(player: CharacterBody2D):
 
 func _process(delta):
 	
-	global_position.x = int(player_to_follow.global_position.x / (camera_offset_x * 2)) * 2 * camera_offset_x + camera_offset_x
-	pass
+	if player_to_follow != null:
+		global_position.x = int(player_to_follow.global_position.x / (camera_offset_x * 2)) * 2 * camera_offset_x + camera_offset_x
+	

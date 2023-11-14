@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://hpghcatof183"]
+
+[ext_resource type="PackedScene" uid="uid://dvdyhklyj127b" path="res://Scenes/monster.tscn" id="1_ae1yy"]
+[ext_resource type="Script" path="res://Scripts/MoleManBehavior.gd" id="2_2edgx"]
+[ext_resource type="Texture2D" uid="uid://0pkhaqsc2sxj" path="res://Assets/moleman-Sheet.png" id="2_nioxy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_33f1i"]
+size = Vector2(20, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xpkcv"]
+size = Vector2(24, 21)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3dw6p"]
+
+[sub_resource type="Animation" id="Animation_7bca2"]
+resource_name = "moving"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i1e4n"]
+_data = {
+"moving": SubResource("Animation_7bca2")
+}
+
+[node name="MoleMan" instance=ExtResource("1_ae1yy")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_nioxy")
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, 14)
+shape = SubResource("RectangleShape2D_33f1i")
+
+[node name="CPUBehavior" parent="." index="4"]
+script = ExtResource("2_2edgx")
+SPEED = 75
+
+[node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+position = Vector2(0, 4.5)
+shape = SubResource("RectangleShape2D_xpkcv")
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+position = Vector2(0, 0)
+shape = SubResource("RectangleShape2D_3dw6p")
+
+[node name="AnimationPlayer" parent="." index="8"]
+libraries = {
+"": SubResource("AnimationLibrary_i1e4n")
+}
+
+[editable path="HurtBoxComponent"]
+[editable path="HitBoxComponent"]
