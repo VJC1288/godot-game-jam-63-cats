@@ -9,6 +9,7 @@ enum EnemyStates {IDLE, WALKING, FLYING, CHASING, WAITING}
 @onready var cliff_detector = $"../CliffDetector"
 @onready var actor = $".."
 @onready var sprite_2d = $"../Sprite2D"
+@onready var animation_player = $"../AnimationPlayer"
 
 
 @export var cliff_rebounds: bool = true
@@ -44,6 +45,7 @@ func _process(delta):
 			
 		EnemyStates.WALKING:
 			
+			animation_player.play("moving")
 			
 			if cliff_detector.is_colliding():
 				actor.velocity.x = direction * SPEED

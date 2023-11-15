@@ -1,10 +1,6 @@
 extends CharacterBody2D
 
 
-@onready var animation_player = $AnimationPlayer
-
-
-
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
@@ -14,7 +10,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _physics_process(delta):
-	animation_player.play("moving")
+	pass
 
 
 func take_damage():
@@ -23,4 +19,8 @@ func take_damage():
 
 
 func die():
+	queue_free()
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()

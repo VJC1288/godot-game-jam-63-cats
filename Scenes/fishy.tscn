@@ -1,0 +1,178 @@
+[gd_scene load_steps=13 format=3 uid="uid://ct1ongypku7m2"]
+
+[ext_resource type="PackedScene" uid="uid://dvdyhklyj127b" path="res://Scenes/monster.tscn" id="1_gcw3f"]
+[ext_resource type="Texture2D" uid="uid://c1lskw2ucwh8b" path="res://Assets/fish.png" id="2_5k4r7"]
+[ext_resource type="Script" path="res://Scripts/FishBehavior.gd" id="3_620qv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1l8ji"]
+size = Vector2(12, 13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2u6ka"]
+size = Vector2(10, 10)
+
+[sub_resource type="Animation" id="Animation_owwja"]
+resource_name = "leaving_water"
+length = 0.06
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [1, 2, 4]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HurtBoxComponent/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.02),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_22nm1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_ey8kg"]
+resource_name = "biting"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 3]
+}
+
+[sub_resource type="Animation" id="Animation_1yk14"]
+resource_name = "turning"
+length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_ehdhq"]
+resource_name = "entering_water"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [8, 9, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HurtBoxComponent/CollisionShape2D:disabled")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ci52v"]
+_data = {
+"RESET": SubResource("Animation_22nm1"),
+"biting": SubResource("Animation_ey8kg"),
+"entering_water": SubResource("Animation_ehdhq"),
+"leaving_water": SubResource("Animation_owwja"),
+"turning": SubResource("Animation_1yk14")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0saen"]
+size = Vector2(64, 97)
+
+[node name="Fishy" instance=ExtResource("1_gcw3f")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_5k4r7")
+flip_h = false
+hframes = 10
+
+[node name="VisibleOnScreenNotifier2D" parent="Sprite2D" index="0"]
+visible = false
+
+[node name="CollisionShape2D" parent="." index="1"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_1l8ji")
+disabled = true
+
+[node name="CliffDetector" parent="." index="2"]
+enabled = false
+
+[node name="WallDetector" parent="." index="3"]
+enabled = false
+
+[node name="CPUBehavior" parent="." index="4"]
+script = ExtResource("3_620qv")
+
+[node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+position = Vector2(0, -5)
+shape = SubResource("RectangleShape2D_2u6ka")
+disabled = true
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+disabled = true
+
+[node name="AnimationPlayer" parent="." index="8"]
+libraries = {
+"": SubResource("AnimationLibrary_ci52v")
+}
+
+[node name="PlayerDetector" type="Area2D" parent="." index="9"]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector" index="0"]
+position = Vector2(0, -53.5)
+shape = SubResource("RectangleShape2D_0saen")
+debug_color = Color(0.529412, 0.560784, 0.301961, 0.419608)
+
+[connection signal="body_entered" from="PlayerDetector" to="CPUBehavior" method="_on_player_detector_body_entered"]
+
+[editable path="HurtBoxComponent"]
+[editable path="HitBoxComponent"]
