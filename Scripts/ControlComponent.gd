@@ -1,6 +1,6 @@
 extends Node2D
 
-enum CatStates {IDLE, RUNNING, AIR, HURT}
+enum CatStates {IDLE, RUNNING, AIR, HURT, RESPAWNING}
 
 @onready var animation_player = $"../AnimationPlayer"
 @onready var sprite_2d = $"../Sprite2D"
@@ -9,10 +9,12 @@ enum CatStates {IDLE, RUNNING, AIR, HURT}
 
 
 const SPEED = 300.0
-const JUMP_VELOCITY = -600.0
+const JUMP_VELOCITY = -400.0
 
-var actor
+var actor: CharacterBody2D
 var current_state
+var jump_released = false
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -26,12 +28,12 @@ func _ready():
 
 
 func _physics_process(delta):
-	
-	#print(current_state)
+		
 	match current_state:
 		
+		
 		CatStates.IDLE:
-			
+		
 			actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.15)
 			
 			animation_player.play("idle")
@@ -70,6 +72,7 @@ func _physics_process(delta):
 			if Input.is_action_just_pressed("p1_jump") and actor.is_on_floor():
 				actor.velocity.y = JUMP_VELOCITY
 				current_state = CatStates.AIR
+				jump_released = false
 				return
 				
 			if direction:		
@@ -87,12 +90,19 @@ func _physics_process(delta):
 				current_state = CatStates.IDLE
 				return
 			
-			if actor.velocity.y > 0:
+			if Input.is_action_just_released("p1_jump") and actor.velocity.y < 0:
+				jump_released = true	
+				
+
+			
+			if actor.velocity.y < 0:
 				actor.velocity.y += gravity * delta
-				animation_player.play("jump_down")
-			else:
-				actor.velocity.y += gravity * delta * 2
 				animation_player.play("jump_up")
+			else:
+				actor.velocity.y += gravity * delta * 1.5
+				animation_player.play("jump_down")
+				jump_released = false
+
 				
 			var direction = Input.get_axis("p1_left", "p1_right")
 			if direction < 0:
@@ -101,12 +111,18 @@ func _physics_process(delta):
 			elif direction > 0:
 				sprite_2d.flip_h = false
 			
+			if jump_released:
+				actor.velocity.y = lerp(actor.velocity.y, 0.0, 0.1)
+
 			if direction:		
-				actor.velocity.x = lerp(actor.velocity.x, direction * SPEED, 0.1)
+					actor.velocity.x = lerp(actor.velocity.x, direction * SPEED, 0.1)
 			else:
-				actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.1)
+					actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.1)
 				
 			actor.move_and_slide()
+			
+			var last_collision = actor.get_last_slide_collision()
+			
 			
 		CatStates.HURT:
 
@@ -138,6 +154,19 @@ func _physics_process(delta):
 			
 
 			actor.move_and_slide()
+			
+		
+		CatStates.RESPAWNING:
+		
+			actor.velocity.x = 0
+			actor.velocity.y += gravity * delta * 1.5
+			animation_player.play("jump_down")
+
+			
+			if  actor.is_on_floor():
+				current_state = CatStates.IDLE
+					
+			actor.move_and_slide()
 
 func set_state(new_state: int):
 	current_state = new_state
@@ -147,3 +176,14 @@ func set_state(new_state: int):
 func _on_hurt_timer_timeout():
 
 	set_state(CatStates.IDLE)
+
+func respawn(new_position: Vector2):
+	
+	set_state(CatStates.RESPAWNING)
+	actor.global_position = new_position
+	actor.velocity = Vector2.ZERO
+	if not hurt_timer.is_stopped():
+		hurt_timer.stop()
+	animation_player.play("RESET")
+	
+

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlfertjoknntx"
-path="res://.godot/imported/fish.png-a4685f378b8cf206a737b60e7b38d4e8.ctex"
+uid="uid://bymuk2dtl6kl0"
+path="res://.godot/imported/yarn-Sheet.png-64fef8528a0d270914392198179639ae.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/fish.png"
-dest_files=["res://.godot/imported/fish.png-a4685f378b8cf206a737b60e7b38d4e8.ctex"]
+source_file="res://Assets/yarn-Sheet.png"
+dest_files=["res://.godot/imported/yarn-Sheet.png-64fef8528a0d270914392198179639ae.ctex"]
 
 [params]
 

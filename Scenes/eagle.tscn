@@ -73,6 +73,7 @@ _data = {
 size = Vector2(190, 271)
 
 [node name="Eagle" instance=ExtResource("1_bbbxa")]
+collision_mask = 0
 
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_wrdq5")

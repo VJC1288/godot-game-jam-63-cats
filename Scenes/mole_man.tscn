@@ -38,6 +38,9 @@ _data = {
 [node name="Sprite2D" parent="." index="0"]
 texture = ExtResource("2_nioxy")
 
+[node name="VisibleOnScreenNotifier2D" parent="Sprite2D" index="0"]
+visible = false
+
 [node name="CollisionShape2D" parent="." index="1"]
 position = Vector2(0, 14)
 shape = SubResource("RectangleShape2D_33f1i")
@@ -46,9 +49,15 @@ shape = SubResource("RectangleShape2D_33f1i")
 script = ExtResource("2_2edgx")
 SPEED = 75
 
+[node name="HurtBoxComponent" parent="." index="5"]
+visible = false
+
 [node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
 position = Vector2(0, 4.5)
 shape = SubResource("RectangleShape2D_xpkcv")
+
+[node name="HitBoxComponent" parent="." index="7"]
+visible = false
 
 [node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
 position = Vector2(0, 0)

@@ -16,6 +16,7 @@ func _ready():
 
 
 func damage(damage_value, recoil_from):
-	health_component.adjust_health(-damage_value)
 	emit_signal("took_damage", recoil_from)
+	health_component.adjust_health(-damage_value)
+
 	

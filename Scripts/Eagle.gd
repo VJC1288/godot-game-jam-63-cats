@@ -79,6 +79,5 @@ func _on_player_detector_body_entered(body):
 		diveTarget = body.global_position
 		diveTarget.x += 20
 		direction = global_position.direction_to(diveTarget).normalized()
-		collision_shape_2d.set_deferred("disabled", true)
 		player_detector.set_deferred("monitoring", false)
 		
