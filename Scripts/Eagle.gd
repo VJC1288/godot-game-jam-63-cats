@@ -77,7 +77,6 @@ func _on_player_detector_body_entered(body):
 	if body.is_in_group("player"):
 		currentState = EnemyStates.DIVING
 		diveTarget = body.global_position
-		diveTarget.x += 20
 		direction = global_position.direction_to(diveTarget).normalized()
 		player_detector.set_deferred("monitoring", false)
 		

@@ -34,7 +34,7 @@ func _physics_process(delta):
 		
 		CatStates.IDLE:
 		
-			actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.15)
+			actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.20)
 			
 			animation_player.play("idle")
 			
@@ -76,9 +76,9 @@ func _physics_process(delta):
 				return
 				
 			if direction:		
-				actor.velocity.x = lerp(actor.velocity.x, direction * SPEED, 0.3)
+				actor.velocity.x = lerp(actor.velocity.x, direction * SPEED, 0.4)
 			else:
-				actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.3)
+				actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.4)
 				current_state = CatStates.IDLE
 
 			

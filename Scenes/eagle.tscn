@@ -8,7 +8,7 @@
 size = Vector2(28, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iajgl"]
-size = Vector2(14, 10)
+size = Vector2(20, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xcr8q"]
 size = Vector2(14, 6)
@@ -101,7 +101,6 @@ script = ExtResource("3_ijply")
 [node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
 position = Vector2(0, 12)
 shape = SubResource("RectangleShape2D_iajgl")
-disabled = true
 
 [node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
 position = Vector2(0, -3)

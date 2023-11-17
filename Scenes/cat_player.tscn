@@ -123,7 +123,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6tn23"]
-size = Vector2(21, 4)
+size = Vector2(21, 18)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqda3"]
 
@@ -147,7 +147,7 @@ frame = 7
 region_rect = Rect2(0, 32, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 13)
+position = Vector2(0.5, 6)
 shape = SubResource("RectangleShape2D_6tn23")
 
 [node name="HitBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_m26y4")]

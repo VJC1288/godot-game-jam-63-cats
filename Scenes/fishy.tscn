@@ -125,7 +125,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0saen"]
-size = Vector2(64, 97)
+size = Vector2(72, 223)
 
 [node name="Fishy" instance=ExtResource("1_gcw3f")]
 
@@ -133,9 +133,6 @@ size = Vector2(64, 97)
 texture = ExtResource("2_5k4r7")
 flip_h = false
 hframes = 10
-
-[node name="VisibleOnScreenNotifier2D" parent="Sprite2D" index="0"]
-visible = false
 
 [node name="CollisionShape2D" parent="." index="1"]
 visible = false
@@ -151,6 +148,9 @@ enabled = false
 
 [node name="CPUBehavior" parent="." index="4"]
 script = ExtResource("3_620qv")
+
+[node name="JumpTimer" type="Timer" parent="CPUBehavior" index="0"]
+wait_time = 3.5
 
 [node name="HurtBoxComponent" parent="." index="5"]
 visible = false
@@ -172,15 +172,16 @@ libraries = {
 }
 
 [node name="PlayerDetector" type="Area2D" parent="." index="9"]
-visible = false
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector" index="0"]
-position = Vector2(0, -53.5)
+position = Vector2(0, -116.5)
 shape = SubResource("RectangleShape2D_0saen")
 debug_color = Color(0.529412, 0.560784, 0.301961, 0.419608)
 
+[connection signal="timeout" from="CPUBehavior/JumpTimer" to="CPUBehavior" method="_on_jump_timer_timeout"]
 [connection signal="body_entered" from="PlayerDetector" to="CPUBehavior" method="_on_player_detector_body_entered"]
+[connection signal="body_exited" from="PlayerDetector" to="CPUBehavior" method="_on_player_detector_body_exited"]
 
 [editable path="HurtBoxComponent"]
 [editable path="HitBoxComponent"]

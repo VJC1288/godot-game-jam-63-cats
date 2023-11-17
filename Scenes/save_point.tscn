@@ -83,7 +83,7 @@ color = Color(0.976471, 0, 0.992157, 1)
 [node name="TriggerArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TriggerArea"]
-position = Vector2(-4, -1)
+position = Vector2(-4.5, -1)
 shape = SubResource("RectangleShape2D_di0cy")
 
 [node name="RespawnPoint" type="Marker2D" parent="."]

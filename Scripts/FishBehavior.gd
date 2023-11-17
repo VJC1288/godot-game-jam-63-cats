@@ -9,13 +9,14 @@ enum EnemyStates {IDLE, DIVING_UP, DIVING_DOWN, WAITING}
 @onready var animation_player = $"../AnimationPlayer"
 @onready var player_detector = $"../PlayerDetector"
 @onready var collision_shape_2d = $"../CollisionShape2D"
+@onready var jump_timer = $JumpTimer
 
 
 @export var cliff_rebounds: bool = true
 @export var distance_limit: int = 150
 
 @export var SPEED: int = 100
-@export var JUMP_VELOCITY: int = 500
+@export var JUMP_VELOCITY: int = 600
 
 var currentState: EnemyStates
 var direction: Vector2
@@ -72,15 +73,22 @@ func _process(delta):
 				animation_player.play("entering_water")
 				sprite_2d.flip_v = false
 				currentState = EnemyStates.IDLE
-				player_detector.set_deferred("monitoring", true)
+				
 				
 		EnemyStates.WAITING:
 			pass
 			
 
 func _on_player_detector_body_entered(body):
-	if body.is_in_group("player"):
-		currentState = EnemyStates.DIVING_UP
-		animation_player.play("leaving_water")
-		actor.velocity.y = direction.y * JUMP_VELOCITY
-		player_detector.set_deferred("monitoring", false)
+	jump_timer.start()
+	currentState = EnemyStates.DIVING_UP
+	animation_player.play("leaving_water")
+	actor.velocity.y = direction.y * JUMP_VELOCITY
+	player_detector.set_deferred("monitoring", false)
+
+
+func _on_jump_timer_timeout():
+	player_detector.set_deferred("monitoring", true)
+	
+
+
