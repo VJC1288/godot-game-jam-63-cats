@@ -1,0 +1,116 @@
+[gd_scene load_steps=9 format=3 uid="uid://bwi6p33vylfph"]
+
+[ext_resource type="Texture2D" uid="uid://ctwdfa36j7db0" path="res://Assets/titleimage.png" id="1_ckna7"]
+[ext_resource type="Script" path="res://Scripts/titlescreen.gd" id="1_fh3sc"]
+[ext_resource type="FontFile" uid="uid://cagddqvdowntk" path="res://Assets/GFSNeohellenic-Bold.ttf" id="2_tuse6"]
+[ext_resource type="StyleBox" uid="uid://bn6ctdjnpk5qk" path="res://buttonstyle.tres" id="3_vtv6t"]
+[ext_resource type="StyleBox" uid="uid://ci7iarn7158db" path="res://buttonstylehover.tres" id="5_pjh0v"]
+[ext_resource type="StyleBox" uid="uid://bs8o3k10eatfn" path="res://buttonstylepressed.tres" id="6_2tflq"]
+
+[sub_resource type="Theme" id="Theme_fknwm"]
+
+[sub_resource type="Theme" id="Theme_2qa1h"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fh3sc")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ckna7")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 2
+theme = SubResource("Theme_fknwm")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_tuse6")
+theme_override_styles/normal = ExtResource("3_vtv6t")
+theme_override_styles/hover = ExtResource("5_pjh0v")
+theme_override_styles/pressed = ExtResource("6_2tflq")
+text = "Play"
+
+[node name="HelpButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = SubResource("Theme_2qa1h")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("2_tuse6")
+theme_override_styles/normal = ExtResource("3_vtv6t")
+theme_override_styles/hover = ExtResource("5_pjh0v")
+theme_override_styles/pressed = ExtResource("6_2tflq")
+text = "Help"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/HBoxContainer/VBoxContainer2/PlayButton" to="." method="_on_play_button_pressed"]

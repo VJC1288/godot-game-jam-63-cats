@@ -8,6 +8,12 @@ var recoil_speed = 400
 @onready var animation_player = $AnimationPlayer
 @onready var control_component = $ControlComponent
 @onready var health_component = $HealthComponent
+@onready var sprite_2d = $Sprite2D
+
+@onready var landon_texture = preload("res://Assets/Landon_Sprites.png")
+@onready var dewey_texture = preload("res://Assets/Dewey_Sprites.png")
+@onready var barney_texture = preload("res://Assets/Barney_Sprites.png")
+@onready var shadow_texture = preload("res://Assets/catanimation-Sheet.png")
 
 var current_respawn
 var max_lives = 9
@@ -36,3 +42,12 @@ func die():
 	control_component.respawn(current_respawn)
 	health_component.set_health_to(100)
 
+func change_cat(name:String):
+	if name == "Landon":
+		sprite_2d.texture = landon_texture
+	elif name == "Dewey":
+		sprite_2d.texture = dewey_texture
+	elif name == "Barney":
+		sprite_2d.texture = barney_texture
+	elif name == "Shadow":
+		sprite_2d.texture = shadow_texture

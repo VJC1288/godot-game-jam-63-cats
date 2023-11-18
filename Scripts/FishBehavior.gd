@@ -24,7 +24,7 @@ var originX
 var originY
 var diveTarget
 var diveSpeed = 400
-
+var start_left: bool = false
 
 func _ready():
 	direction = Vector2(0,-1)

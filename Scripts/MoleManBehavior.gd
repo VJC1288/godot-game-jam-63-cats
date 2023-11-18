@@ -25,8 +25,6 @@ func _ready():
 	direction = 1
 	currentState = EnemyStates.IDLE
 	originX = global_position.x
-	if start_left:
-		flip_char()
 		
 	
 
