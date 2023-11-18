@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bquj2jgwpbh7k"]
+[gd_scene load_steps=18 format=3 uid="uid://bquj2jgwpbh7k"]
 
 [ext_resource type="Script" path="res://Scripts/cat_player.gd" id="1_hur5d"]
 [ext_resource type="Texture2D" uid="uid://dki8yfgfjrfy1" path="res://Assets/Landon_Sprites.png" id="2_pc1bb"]
@@ -130,6 +130,9 @@ size = Vector2(21, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_053he"]
 size = Vector2(16, 4)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1cj6"]
+size = Vector2(12, 10)
+
 [node name="CatPlayer" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_hur5d")
 
@@ -147,7 +150,7 @@ frame = 7
 region_rect = Rect2(0, 32, 32, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 6)
+position = Vector2(0, 6)
 shape = SubResource("RectangleShape2D_6tn23")
 
 [node name="HitBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_m26y4")]
@@ -159,6 +162,7 @@ position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_hqda3")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_lsq0t")]
+max_health = 60
 
 [node name="ControlComponent" parent="." instance=ExtResource("5_h6564")]
 
@@ -169,5 +173,14 @@ collision_mask = 2
 position = Vector2(0, 15)
 shape = SubResource("RectangleShape2D_053he")
 
+[node name="ClawHurtbox" parent="." instance=ExtResource("6_wmq2d")]
+position = Vector2(23, 0)
+collision_layer = 32
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="ClawHurtbox" index="0"]
+shape = SubResource("RectangleShape2D_e1cj6")
+
 [editable path="HitBoxComponent"]
 [editable path="HurtBoxComponent"]
+[editable path="ClawHurtbox"]

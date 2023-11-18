@@ -11,12 +11,13 @@ var camera_offset_x
 var camera_offset_y
 
 func _ready():
-	game_width = get_window().size.x
-	game_height = get_window().size.y
+	game_width = get_viewport().get_visible_rect().size.x
+	game_height = get_viewport().get_visible_rect().size.y
+
 	
+	camera_offset_x = game_width
+	camera_offset_y = game_height
 	
-	camera_offset_x = game_width / 2 / game_scale
-	camera_offset_y = game_height / 2 / game_scale
 	
 	global_position.x = camera_offset_x
 	global_position.y = camera_offset_y
@@ -29,7 +30,9 @@ func initialize(player: CharacterBody2D):
 func _process(delta):
 	
 	if player_to_follow != null:
-		if global_position.x > 0:
-			global_position.x = int(player_to_follow.global_position.x / (camera_offset_x * 2)) * 2 * camera_offset_x + camera_offset_x
-		else:
-			global_position.x = int(player_to_follow.global_position.x / (camera_offset_x * 2)) * 2 * camera_offset_x - camera_offset_x
+
+		if player_to_follow.global_position.x > 0:
+			global_position.x = int(player_to_follow.global_position.x / camera_offset_x) * (camera_offset_x) + camera_offset_x / 2
+		elif player_to_follow.global_position.x < 0:
+			global_position.x = int(player_to_follow.global_position.x / camera_offset_x) * (camera_offset_x) - camera_offset_x / 2
+

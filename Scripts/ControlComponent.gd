@@ -5,6 +5,7 @@ enum CatStates {IDLE, RUNNING, AIR, HURT, RESPAWNING}
 @onready var animation_player = $"../AnimationPlayer"
 @onready var sprite_2d = $"../Sprite2D"
 @onready var hurt_timer = $HurtTimer
+@onready var claw_hurtbox = $"../ClawHurtbox"
 
 
 
@@ -14,7 +15,9 @@ const JUMP_VELOCITY = -400.0
 var actor: CharacterBody2D
 var current_state
 var jump_released = false
-
+var can_double_jump = false
+var double_jumped = false
+var can_scratch = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -50,6 +53,10 @@ func _physics_process(delta):
 				current_state = CatStates.RUNNING
 				return
 			
+			if Input.is_action_just_pressed("p1_action") and can_scratch == true:
+				scratch()
+				
+			
 			actor.move_and_slide()
 
 		CatStates.RUNNING:
@@ -60,9 +67,11 @@ func _physics_process(delta):
 
 			if direction < 0:
 				sprite_2d.flip_h = true
+				claw_hurtbox.position.x = -23
 
 			elif direction > 0:
 				sprite_2d.flip_h = false
+				claw_hurtbox.position.x = 23
 			
 			if not actor.is_on_floor():
 				current_state = CatStates.AIR
@@ -88,11 +97,17 @@ func _physics_process(delta):
 			
 			if actor.is_on_floor():
 				current_state = CatStates.IDLE
+				double_jumped = false
 				return
 			
 			if Input.is_action_just_released("p1_jump") and actor.velocity.y < 0:
 				jump_released = true	
-				
+			
+			if can_double_jump and double_jumped == false:
+				if Input.is_action_just_pressed("p1_jump"):
+					actor.velocity.y = JUMP_VELOCITY
+					jump_released = false
+					double_jumped = true
 
 			
 			if actor.velocity.y < 0:
@@ -107,9 +122,11 @@ func _physics_process(delta):
 			var direction = Input.get_axis("p1_left", "p1_right")
 			if direction < 0:
 				sprite_2d.flip_h = true
+				claw_hurtbox.position.x = -23
 
 			elif direction > 0:
 				sprite_2d.flip_h = false
+				claw_hurtbox.position.x = 23
 			
 			if jump_released:
 				actor.velocity.y = lerp(actor.velocity.y, 0.0, 0.1)
@@ -186,4 +203,5 @@ func respawn(new_position: Vector2):
 		hurt_timer.stop()
 	animation_player.play("RESET")
 	
-
+func scratch():
+	pass
