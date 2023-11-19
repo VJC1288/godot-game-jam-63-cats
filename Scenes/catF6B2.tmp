@@ -1,0 +1,271 @@
+[gd_scene load_steps=22 format=3 uid="uid://bquj2jgwpbh7k"]
+
+[ext_resource type="Script" path="res://Scripts/cat_player.gd" id="1_hur5d"]
+[ext_resource type="Texture2D" uid="uid://dki8yfgfjrfy1" path="res://Assets/Landon_Sprites.png" id="2_pc1bb"]
+[ext_resource type="PackedScene" uid="uid://bgdbingvk6clg" path="res://Scenes/hit_box_component.tscn" id="3_m26y4"]
+[ext_resource type="PackedScene" uid="uid://lp7gbkibdnde" path="res://Scenes/health_component.tscn" id="4_lsq0t"]
+[ext_resource type="PackedScene" uid="uid://fymu0sy3eehw" path="res://Scenes/control_component.tscn" id="5_h6564"]
+[ext_resource type="PackedScene" uid="uid://csupnuvscck2m" path="res://Scenes/hurt_box_component.tscn" id="6_wmq2d"]
+[ext_resource type="Texture2D" uid="uid://bj8bkg0kax1gm" path="res://Assets/clawslash.png" id="7_3boyp"]
+[ext_resource type="Script" path="res://Scripts/claw_hurt_box.gd" id="7_wn0q2"]
+
+[sub_resource type="Animation" id="Animation_hvw75"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xwqkl"]
+resource_name = "hurt"
+length = 0.7
+step = 0.03
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18, 0.24, 0.3, 0.36, 0.42, 0.48, 0.54, 0.6, 0.66),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.196078), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0.196078), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0.196078), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0.196078), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0.196078), Color(1, 1, 1, 0.784314), Color(1, 1, 1, 0.196078), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tjbkv"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [7, 8]
+}
+
+[sub_resource type="Animation" id="Animation_j1y4a"]
+resource_name = "jump_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+
+[sub_resource type="Animation" id="Animation_eggvg"]
+resource_name = "jump_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_t3ly0"]
+resource_name = "running"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [1, 2, 3, 4, 5]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yknvs"]
+_data = {
+"RESET": SubResource("Animation_hvw75"),
+"hurt": SubResource("Animation_xwqkl"),
+"idle": SubResource("Animation_tjbkv"),
+"jump_down": SubResource("Animation_j1y4a"),
+"jump_up": SubResource("Animation_eggvg"),
+"running": SubResource("Animation_t3ly0")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6tn23"]
+size = Vector2(21, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hqda3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_053he"]
+size = Vector2(16, 4)
+
+[sub_resource type="Animation" id="Animation_wrrjn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_w50xl"]
+resource_name = "slash"
+length = 0.4
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.14, 0.16, 0.18, 0.2, 0.22),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.24),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1ooyg"]
+_data = {
+"RESET": SubResource("Animation_wrrjn"),
+"slash": SubResource("Animation_w50xl")
+}
+
+[node name="CatPlayer" type="CharacterBody2D" groups=["player"]]
+script = ExtResource("1_hur5d")
+max_lives = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_yknvs")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("2_pc1bb")
+hframes = 7
+vframes = 2
+frame = 7
+region_rect = Rect2(0, 32, 32, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 6)
+shape = SubResource("RectangleShape2D_6tn23")
+
+[node name="HitBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_m26y4")]
+collision_mask = 0
+monitoring = false
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_hqda3")
+
+[node name="HealthComponent" parent="." instance=ExtResource("4_lsq0t")]
+max_health = 60
+
+[node name="ControlComponent" parent="." instance=ExtResource("5_h6564")]
+
+[node name="HurtTimer" parent="ControlComponent" index="0"]
+wait_time = 0.5
+
+[node name="HurtBoxComponent" parent="." instance=ExtResource("6_wmq2d")]
+collision_mask = 2
+
+[node name="CollisionShape2D" parent="HurtBoxComponent" index="0"]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_053he")
+
+[node name="ClawHurtCast" type="Node2D" parent="."]
+script = ExtResource("7_wn0q2")
+
+[node name="Sprite2D" type="Sprite2D" parent="ClawHurtCast"]
+visible = false
+texture_filter = 1
+position = Vector2(24, 0)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("7_3boyp")
+hframes = 12
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ClawHurtCast"]
+libraries = {
+"": SubResource("AnimationLibrary_1ooyg")
+}
+
+[node name="RayCast2D" type="RayCast2D" parent="ClawHurtCast"]
+position = Vector2(0, -2)
+enabled = false
+exclude_parent = false
+target_position = Vector2(29, 0)
+collision_mask = 70
+hit_from_inside = true
+collide_with_areas = true
+
+[connection signal="animation_finished" from="ClawHurtCast/AnimationPlayer" to="ClawHurtCast" method="_on_animation_player_animation_finished"]
+
+[editable path="HitBoxComponent"]
+[editable path="ControlComponent"]
+[editable path="HurtBoxComponent"]

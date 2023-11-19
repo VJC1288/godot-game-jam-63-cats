@@ -9,6 +9,7 @@ extends Node2D
 
 var actor
 var recoil_speed = 450
+var damage = 20
 
 func _ready():
 	actor = get_parent()
@@ -38,3 +39,6 @@ func _process(delta):
 			var collider = ray_cast_2d.get_collider()
 			if collider != null and collider.has_method("break_box"):
 				collider.break_box()
+			elif collider != null and collider.has_method("damage"):
+				collider.damage(damage, actor.global_position)
+

@@ -1,11 +1,12 @@
 extends Node2D
 
-enum CatStates {IDLE, RUNNING, AIR, HURT, RESPAWNING}
+enum CatStates {IDLE, RUNNING, AIR, HURT, RESPAWNING, VICTORY_RUN}
 
 @onready var animation_player = $"../AnimationPlayer"
 @onready var sprite_2d = $"../Sprite2D"
 @onready var hurt_timer = $HurtTimer
 @onready var claw_hurt_cast = $"../ClawHurtCast"
+@onready var hit_box_component = $"../HitBoxComponent"
 
 
 
@@ -55,6 +56,7 @@ func _physics_process(delta):
 				return
 			
 			if Input.is_action_just_pressed("p1_action") and can_scratch == true:
+				actor.play_slash_noise()
 				claw_hurt_cast.slash()
 				
 			
@@ -79,9 +81,9 @@ func _physics_process(delta):
 				return
 			
 			if Input.is_action_just_pressed("p1_action") and can_scratch == true:
+				actor.play_slash_noise()
 				claw_hurt_cast.slash()
-
-
+				
 			if Input.is_action_just_pressed("p1_jump") and actor.is_on_floor():
 				actor.velocity.y = JUMP_VELOCITY
 				current_state = CatStates.AIR
@@ -93,7 +95,6 @@ func _physics_process(delta):
 			else:
 				actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.4)
 				current_state = CatStates.IDLE
-
 			
 			actor.move_and_slide()
 	
@@ -114,6 +115,7 @@ func _physics_process(delta):
 					double_jumped = true
 
 			if Input.is_action_just_pressed("p1_action") and can_scratch == true:
+				actor.play_slash_noise()
 				claw_hurt_cast.slash()
 			
 			if actor.velocity.y < 0:
@@ -188,7 +190,25 @@ func _physics_process(delta):
 			
 			if  actor.is_on_floor():
 				current_state = CatStates.IDLE
+				hit_box_component.set_deferred("monitorable", true)
 					
+			actor.move_and_slide()
+		
+		CatStates.VICTORY_RUN:
+
+			print(actor.is_on_floor())
+			if actor.is_on_floor():
+				actor.velocity.x = -300
+				animation_player.play("running")
+			else:
+				if actor.velocity.y < 0:
+					actor.velocity.y += gravity * delta
+					animation_player.play("jump_up")
+				else:
+					actor.velocity.y += gravity * delta * 1.5
+					animation_player.play("jump_down")
+					jump_released = false
+			
 			actor.move_and_slide()
 
 func set_state(new_state: int):
@@ -199,13 +219,17 @@ func set_state(new_state: int):
 func _on_hurt_timer_timeout():
 
 	set_state(CatStates.IDLE)
+	hit_box_component.set_deferred("monitorable", true)
+	
 
 func respawn(new_position: Vector2):
 	
 	set_state(CatStates.RESPAWNING)
+	hit_box_component.set_deferred("monitorable", false)
 	actor.global_position = new_position
 	actor.velocity = Vector2.ZERO
 	if not hurt_timer.is_stopped():
 		hurt_timer.stop()
 	animation_player.play("RESET")
+	
 	

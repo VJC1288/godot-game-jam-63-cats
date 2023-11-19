@@ -1,0 +1,92 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0tdojtq7p03k"]
+
+[ext_resource type="Script" path="res://Scripts/game_over_screen.gd" id="1_5utmy"]
+[ext_resource type="FontFile" uid="uid://5fuolwjxcscw" path="res://Assets/PixelifySans-VariableFont_wght.ttf" id="2_uh8vh"]
+[ext_resource type="AudioStream" uid="uid://dactv7hwpfiwe" path="res://Sounds/kl-peach-game-over-ii-135684.mp3" id="3_3ad8k"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5elpi"]
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hda6o"]
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ktpmq"]
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+
+[node name="GameOverScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5utmy")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_uh8vh")
+theme_override_font_sizes/font_size = 55
+text = "Game Over"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 7
+theme_override_fonts/font = ExtResource("2_uh8vh")
+theme_override_font_sizes/font_size = 22
+text = "/ᐠ - ˕ -マ
+Landon was lost to the wilderness :("
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("2_uh8vh")
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_5elpi")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hda6o")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_ktpmq")
+text = "Return to Title"
+
+[node name="GameOverMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_3ad8k")
+volume_db = -12.0
+autoplay = true
+
+[connection signal="pressed" from="ColorRect/MarginContainer/VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]

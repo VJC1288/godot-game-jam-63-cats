@@ -19,6 +19,7 @@ func _ready():
 func set_health_to(new_value: int):
 	current_health = new_value
 	emit_signal("health_changed", current_health)
+
 	
 func adjust_health(adjustment: int):
 	current_health += adjustment

@@ -20,7 +20,7 @@ func _ready():
 	
 	
 	global_position.x = camera_offset_x
-	global_position.y = camera_offset_y
+	global_position.y = camera_offset_y / 2
 	
 
 func initialize(player: CharacterBody2D):

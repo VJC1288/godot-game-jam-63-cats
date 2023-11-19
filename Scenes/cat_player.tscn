@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bquj2jgwpbh7k"]
+[gd_scene load_steps=27 format=3 uid="uid://bquj2jgwpbh7k"]
 
 [ext_resource type="Script" path="res://Scripts/cat_player.gd" id="1_hur5d"]
 [ext_resource type="Texture2D" uid="uid://dki8yfgfjrfy1" path="res://Assets/Landon_Sprites.png" id="2_pc1bb"]
@@ -8,6 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://csupnuvscck2m" path="res://Scenes/hurt_box_component.tscn" id="6_wmq2d"]
 [ext_resource type="Texture2D" uid="uid://bj8bkg0kax1gm" path="res://Assets/clawslash.png" id="7_3boyp"]
 [ext_resource type="Script" path="res://Scripts/claw_hurt_box.gd" id="7_wn0q2"]
+[ext_resource type="AudioStream" uid="uid://bem04omyjxvd3" path="res://Sounds/kim-lightyear-you-and-i-161104.mp3" id="9_n46js"]
+[ext_resource type="AudioStream" uid="uid://cltut7i7ql7b1" path="res://Sounds/Meow_3.wav" id="10_8jgxf"]
+[ext_resource type="Texture2D" uid="uid://bb7mvsqxjbfql" path="res://icon.svg" id="10_31104"]
+[ext_resource type="AudioStream" uid="uid://0ia6ff1wio67" path="res://Sounds/Meow_1.wav" id="10_sjgfn"]
+[ext_resource type="AudioStream" uid="uid://emk1lllxjlxx" path="res://Sounds/Meow_2.wav" id="11_nqrpd"]
 
 [sub_resource type="Animation" id="Animation_hvw75"]
 resource_name = "RESET"
@@ -132,6 +137,33 @@ size = Vector2(21, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_053he"]
 size = Vector2(16, 4)
 
+[sub_resource type="Animation" id="Animation_wrrjn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+
 [sub_resource type="Animation" id="Animation_w50xl"]
 resource_name = "slash"
 length = 0.4
@@ -161,33 +193,6 @@ tracks/1/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_wrrjn"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ooyg"]
 _data = {
 "RESET": SubResource("Animation_wrrjn"),
@@ -196,6 +201,7 @@ _data = {
 
 [node name="CatPlayer" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_hur5d")
+max_lives = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -216,6 +222,7 @@ shape = SubResource("RectangleShape2D_6tn23")
 
 [node name="HitBoxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("3_m26y4")]
 collision_mask = 0
+monitoring = false
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" parent="HitBoxComponent" index="0"]
@@ -226,6 +233,9 @@ shape = SubResource("RectangleShape2D_hqda3")
 max_health = 60
 
 [node name="ControlComponent" parent="." instance=ExtResource("5_h6564")]
+
+[node name="HurtTimer" parent="ControlComponent" index="0"]
+wait_time = 0.5
 
 [node name="HurtBoxComponent" parent="." instance=ExtResource("6_wmq2d")]
 collision_mask = 2
@@ -241,7 +251,7 @@ script = ExtResource("7_wn0q2")
 visible = false
 texture_filter = 1
 position = Vector2(24, 0)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("7_3boyp")
 hframes = 12
 
@@ -255,10 +265,34 @@ position = Vector2(0, -2)
 enabled = false
 exclude_parent = false
 target_position = Vector2(29, 0)
-collision_mask = 68
+collision_mask = 70
 hit_from_inside = true
+collide_with_areas = true
+
+[node name="GameMusic" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-4, 8)
+stream = ExtResource("9_n46js")
+volume_db = -15.0
+autoplay = true
+
+[node name="Sprite2D" type="Sprite2D" parent="GameMusic"]
+visible = false
+texture = ExtResource("10_31104")
+
+[node name="MeowNoise1" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_sjgfn")
+volume_db = 5.0
+
+[node name="MeowNoise2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_nqrpd")
+volume_db = 5.0
+
+[node name="MeowHurt" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_8jgxf")
+volume_db = 5.0
 
 [connection signal="animation_finished" from="ClawHurtCast/AnimationPlayer" to="ClawHurtCast" method="_on_animation_player_animation_finished"]
 
 [editable path="HitBoxComponent"]
+[editable path="ControlComponent"]
 [editable path="HurtBoxComponent"]
