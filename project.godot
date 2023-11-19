@@ -90,6 +90,7 @@ secret_right={
 2d_physics/layer_4="pickups"
 2d_physics/layer_5="spikes"
 2d_physics/layer_6="player_claws"
+2d_physics/layer_7="boxes"
 
 [rendering]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c0v77q05niokd"
-path="res://.godot/imported/cats-tiles.png-1d09cbbbf6555084d8eace8f476779f6.ctex"
+uid="uid://bj8bkg0kax1gm"
+path="res://.godot/imported/clawslash.png-6d0c6ec3de732f2e9a412d8c5dbe634a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/cats-tiles.png"
-dest_files=["res://.godot/imported/cats-tiles.png-1d09cbbbf6555084d8eace8f476779f6.ctex"]
+source_file="res://Assets/clawslash.png"
+dest_files=["res://.godot/imported/clawslash.png-6d0c6ec3de732f2e9a412d8c5dbe634a.ctex"]
 
 [params]
 

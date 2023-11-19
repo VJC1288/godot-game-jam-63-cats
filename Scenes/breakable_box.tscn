@@ -1,13 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://ddrruu5r2b2qc"]
+[gd_scene load_steps=4 format=3 uid="uid://ddrruu5r2b2qc"]
 
 [ext_resource type="Texture2D" uid="uid://b4otq1igvkooa" path="res://Assets/breakablebox.png" id="1_511d1"]
 [ext_resource type="Script" path="res://Scripts/breakable_box.gd" id="1_xebj7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_srkco"]
 size = Vector2(32, 32)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_tsm3m"]
-size = Vector2(30, 30)
 
 [node name="BreakableBox" type="RigidBody2D"]
 texture_filter = 1
@@ -21,13 +18,3 @@ hframes = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_srkco")
-
-[node name="BoxHitBox" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 32
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BoxHitBox"]
-shape = SubResource("RectangleShape2D_tsm3m")
-debug_color = Color(0.945098, 0.196078, 0.345098, 0.419608)
-
-[connection signal="area_entered" from="BoxHitBox" to="." method="_on_box_hit_box_area_entered"]

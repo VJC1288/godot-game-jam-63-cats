@@ -5,7 +5,8 @@ enum CatStates {IDLE, RUNNING, AIR, HURT, RESPAWNING}
 @onready var animation_player = $"../AnimationPlayer"
 @onready var sprite_2d = $"../Sprite2D"
 @onready var hurt_timer = $HurtTimer
-@onready var claw_hurtbox = $"../ClawHurtbox"
+@onready var claw_hurt_cast = $"../ClawHurtCast"
+
 
 
 
@@ -54,7 +55,7 @@ func _physics_process(delta):
 				return
 			
 			if Input.is_action_just_pressed("p1_action") and can_scratch == true:
-				scratch()
+				claw_hurt_cast.slash()
 				
 			
 			actor.move_and_slide()
@@ -67,16 +68,19 @@ func _physics_process(delta):
 
 			if direction < 0:
 				sprite_2d.flip_h = true
-				claw_hurtbox.position.x = -23
+				claw_hurt_cast.set_left()
 
 			elif direction > 0:
 				sprite_2d.flip_h = false
-				claw_hurtbox.position.x = 23
+				claw_hurt_cast.set_right()
 			
 			if not actor.is_on_floor():
 				current_state = CatStates.AIR
 				return
 			
+			if Input.is_action_just_pressed("p1_action") and can_scratch == true:
+				claw_hurt_cast.slash()
+
 
 			if Input.is_action_just_pressed("p1_jump") and actor.is_on_floor():
 				actor.velocity.y = JUMP_VELOCITY
@@ -109,6 +113,8 @@ func _physics_process(delta):
 					jump_released = false
 					double_jumped = true
 
+			if Input.is_action_just_pressed("p1_action") and can_scratch == true:
+				claw_hurt_cast.slash()
 			
 			if actor.velocity.y < 0:
 				actor.velocity.y += gravity * delta
@@ -122,11 +128,11 @@ func _physics_process(delta):
 			var direction = Input.get_axis("p1_left", "p1_right")
 			if direction < 0:
 				sprite_2d.flip_h = true
-				claw_hurtbox.position.x = -23
+				claw_hurt_cast.set_left()
 
 			elif direction > 0:
 				sprite_2d.flip_h = false
-				claw_hurtbox.position.x = 23
+				claw_hurt_cast.set_right()
 			
 			if jump_released:
 				actor.velocity.y = lerp(actor.velocity.y, 0.0, 0.1)
@@ -203,5 +209,3 @@ func respawn(new_position: Vector2):
 		hurt_timer.stop()
 	animation_player.play("RESET")
 	
-func scratch():
-	pass
