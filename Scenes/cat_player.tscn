@@ -135,7 +135,7 @@ size = Vector2(21, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hqda3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_053he"]
-size = Vector2(16, 4)
+size = Vector2(20, 4)
 
 [sub_resource type="Animation" id="Animation_wrrjn"]
 length = 0.001
@@ -201,7 +201,6 @@ _data = {
 
 [node name="CatPlayer" type="CharacterBody2D" groups=["player"]]
 script = ExtResource("1_hur5d")
-max_lives = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -290,6 +289,8 @@ volume_db = 5.0
 [node name="MeowHurt" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_8jgxf")
 volume_db = 5.0
+
+[node name="Timer" type="Timer" parent="."]
 
 [connection signal="animation_finished" from="ClawHurtCast/AnimationPlayer" to="ClawHurtCast" method="_on_animation_player_animation_finished"]
 

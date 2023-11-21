@@ -62,7 +62,6 @@ func update_health_bar(new_health):
 
 func respawn(new_lives):
 	gui.update_lives_label(new_lives)
-	print(new_lives)
 	if new_lives != 0:
 		fade_to_black.modulate = Color(0,0,0,0)
 		fade_to_black.visible = true
@@ -73,6 +72,7 @@ func respawn(new_lives):
 		
 
 func game_over():
+	cat_player.queue_free()
 	fade_to_black.modulate = Color(0,0,0,0)
 	fade_to_black.visible = true
 	var tween = get_tree().create_tween()

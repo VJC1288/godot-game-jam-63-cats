@@ -8,8 +8,7 @@ var max_lives
 
 func initialize(passed_player):
 	passed_player.health_component.max_health = life_bar.max_value
-	
-
+	update_lives_label(passed_player.max_lives)
 
 func update_health_bar(new_value):
 	life_bar.value = new_value

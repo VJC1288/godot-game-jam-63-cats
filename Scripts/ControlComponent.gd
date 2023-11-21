@@ -39,7 +39,7 @@ func _physics_process(delta):
 		
 		CatStates.IDLE:
 		
-			actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.20)
+			actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.4)
 			
 			animation_player.play("idle")
 			
@@ -91,9 +91,9 @@ func _physics_process(delta):
 				return
 				
 			if direction:		
-				actor.velocity.x = lerp(actor.velocity.x, direction * SPEED, 0.4)
+				actor.velocity.x = lerp(actor.velocity.x, direction * SPEED, 0.5)
 			else:
-				actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.4)
+				actor.velocity.x = lerp(actor.velocity.x, 0.0, 0.5)
 				current_state = CatStates.IDLE
 			
 			actor.move_and_slide()
@@ -196,7 +196,6 @@ func _physics_process(delta):
 		
 		CatStates.VICTORY_RUN:
 
-			print(actor.is_on_floor())
 			if actor.is_on_floor():
 				actor.velocity.x = -300
 				animation_player.play("running")
@@ -232,4 +231,6 @@ func respawn(new_position: Vector2):
 		hurt_timer.stop()
 	animation_player.play("RESET")
 	
-	
+func hurt(from_direction):
+	set_state(CatStates.HURT)
+	actor.velocity = actor.global_position.direction_to(from_direction) * 200 * -1

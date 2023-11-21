@@ -1,7 +1,7 @@
 extends Control
 
 @onready var margin_container = $ColorRect/MarginContainer
-@onready var title_screen = preload("res://Scenes/titlescreen.tscn")
+
 
 
 # Called when the node enters the scene tree for the first time.
@@ -14,4 +14,6 @@ func _ready():
 
 
 func _on_restart_button_pressed():
-	get_tree().change_scene_to_packed(title_screen)
+	get_tree().change_scene_to_packed(Globals.title_screen)
+	
+	

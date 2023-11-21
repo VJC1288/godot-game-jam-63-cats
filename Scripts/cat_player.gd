@@ -38,11 +38,10 @@ func _ready():
 	emit_signal("lives_changed", current_lives)
 
 func take_damage(from_direction):
-	control_component.set_state(3)
 	meow_hurt.play()
 	hit_box_component.set_deferred("monitorable", false)
-	velocity += global_position.direction_to(from_direction).normalized() * recoil_speed * -1 
-		
+	control_component.hurt(from_direction)
+	
 func _process(delta):
 	pass
 		

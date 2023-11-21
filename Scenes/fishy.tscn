@@ -125,7 +125,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0saen"]
-size = Vector2(72, 223)
+size = Vector2(94, 223)
 
 [node name="Fishy" instance=ExtResource("1_gcw3f")]
 collision_mask = 0

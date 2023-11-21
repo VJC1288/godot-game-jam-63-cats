@@ -32,6 +32,7 @@ grow_vertical = 2
 script = ExtResource("1_8cpto")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+process_mode = 3
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -69,8 +70,7 @@ layout_mode = 2
 size_flags_vertical = 7
 theme_override_fonts/font = ExtResource("2_1txgj")
 theme_override_font_sizes/font_size = 22
-text = "૮(•⩊•)ა
-Landon and his friends were free to adventure for the remainder of their years."
+text = "Landon and his friends were free to adventure for the remainder of their years."
 horizontal_alignment = 1
 autowrap_mode = 2
 
